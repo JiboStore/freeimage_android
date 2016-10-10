@@ -20,9 +20,9 @@
 // Use at your own risk!
 // ==========================================================
 
-#ifdef _MSC_VER 
+#ifdef _MSC_VER
 #pragma warning (disable : 4786) // identifier was truncated to 'number' characters
-#endif 
+#endif
 
 #ifndef PLUGIN_H
 #define PLUGIN_H
@@ -121,24 +121,24 @@ void DLL_CALLCONV InitPNG(Plugin *plugin, int format_id);
 void DLL_CALLCONV InitPNM(Plugin *plugin, int format_id);
 void DLL_CALLCONV InitPSD(Plugin *plugin, int format_id);
 void DLL_CALLCONV InitRAS(Plugin *plugin, int format_id);
-void DLL_CALLCONV InitTARGA(Plugin *plugin, int format_id);
-void DLL_CALLCONV InitTIFF(Plugin *plugin, int format_id);
-void DLL_CALLCONV InitWBMP(Plugin *plugin, int format_id);
-void DLL_CALLCONV InitXBM(Plugin *plugin, int format_id);
-void DLL_CALLCONV InitXPM(Plugin *plugin, int format_id);
+//void DLL_CALLCONV InitTARGA(Plugin *plugin, int format_id);
+//void DLL_CALLCONV InitTIFF(Plugin *plugin, int format_id);
+//void DLL_CALLCONV InitWBMP(Plugin *plugin, int format_id);
+//void DLL_CALLCONV InitXBM(Plugin *plugin, int format_id);
+//void DLL_CALLCONV InitXPM(Plugin *plugin, int format_id);
 void DLL_CALLCONV InitDDS(Plugin *plugin, int format_id);
 void DLL_CALLCONV InitGIF(Plugin *plugin, int format_id);
-void DLL_CALLCONV InitHDR(Plugin *plugin, int format_id);
-void DLL_CALLCONV InitG3(Plugin *plugin, int format_id);
-void DLL_CALLCONV InitSGI(Plugin *plugin, int format_id);
-void DLL_CALLCONV InitEXR(Plugin *plugin, int format_id);
-void DLL_CALLCONV InitJ2K(Plugin *plugin, int format_id);
-void DLL_CALLCONV InitJP2(Plugin *plugin, int format_id);
-void DLL_CALLCONV InitPFM(Plugin *plugin, int format_id);
-void DLL_CALLCONV InitPICT(Plugin *plugin, int format_id);
-void DLL_CALLCONV InitRAW(Plugin *plugin, int format_id);
-void DLL_CALLCONV InitJNG(Plugin *plugin, int format_id);
-void DLL_CALLCONV InitWEBP(Plugin *plugin, int format_id);
-void DLL_CALLCONV InitJXR(Plugin *plugin, int format_id);
+//void DLL_CALLCONV InitHDR(Plugin *plugin, int format_id);
+//void DLL_CALLCONV InitG3(Plugin *plugin, int format_id);
+//void DLL_CALLCONV InitSGI(Plugin *plugin, int format_id);
+//void DLL_CALLCONV InitEXR(Plugin *plugin, int format_id);
+//void DLL_CALLCONV InitJ2K(Plugin *plugin, int format_id);
+//void DLL_CALLCONV InitJP2(Plugin *plugin, int format_id);
+//void DLL_CALLCONV InitPFM(Plugin *plugin, int format_id);
+//void DLL_CALLCONV InitPICT(Plugin *plugin, int format_id);
+//void DLL_CALLCONV InitRAW(Plugin *plugin, int format_id);
+//void DLL_CALLCONV InitJNG(Plugin *plugin, int format_id);
+//void DLL_CALLCONV InitWEBP(Plugin *plugin, int format_id);
+//void DLL_CALLCONV InitJXR(Plugin *plugin, int format_id);
 
 #endif //!PLUGIN_H
