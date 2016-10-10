@@ -1,2 +1,0 @@
-#!/bin/bash
-patch -p0 < android-lib-freeimage-3.15.4.patch
