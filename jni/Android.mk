@@ -203,7 +203,7 @@ LOCAL_SRC_FILES = ../Source/FreeImage/BitmapAccess.cpp \
 		../Source/LibTIFF4/./tif_open.c \
 		../Source/LibTIFF4/./tif_packbits.c \
 		../Source/LibTIFF4/./tif_pixarlog.c \
-		../Source/LibTIFF4/./tif_predict.c \
+#		../Source/LibTIFF4/./tif_predict.c \
 		../Source/LibTIFF4/./tif_print.c \
 		../Source/LibTIFF4/./tif_read.c \
 		../Source/LibTIFF4/./tif_strip.c \
