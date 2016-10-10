@@ -10,3 +10,6 @@ Latest branch: develop
 Latest FreeImage version: 3.17.0
 
 run `ndk-build` from cygwin in this directory
+
+references:
+http://stackoverflow.com/a/11718793/474330
