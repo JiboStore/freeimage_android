@@ -56,12 +56,12 @@
  * configure generated config.h.  Libpng is expected to compile without *any*
  * special build system support on a reasonably ANSI-C compliant system.
  */
-#if defined(HAVE_CONFIG_H) && !defined(PNG_NO_CONFIG_H)
-#  include <config.h>
-
+//#if defined(HAVE_CONFIG_H) && !defined(PNG_NO_CONFIG_H)
+//#  include <config.h>
+//
    /* Pick up the definition of 'restrict' from config.h if it was read: */
-#  define PNG_RESTRICT restrict
-#endif
+//#  define PNG_RESTRICT restrict
+//#endif
 
 /* To support symbol prefixing it is necessary to know *before* including png.h
  * whether the fixed point (and maybe other) APIs are exported, because if they
