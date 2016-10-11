@@ -5,7 +5,6 @@
 // - Floris van den Berg (flvdberg@wxs.nl)
 // - Hervé Drolon <drolon@infonie.fr>
 // - Ryan Rubley (ryan@lostreality.org)
-// - Mihail Naydenov (mnaydenov@users.sourceforge.net)
 //
 // This file is part of FreeImage 3
 //
@@ -73,13 +72,12 @@ Allocate a FIBITMAP with possibly no pixel data
 (i.e. only header data and some or all metadata)
 @param header_only If TRUE, allocate a 'header only' FIBITMAP, otherwise allocate a full FIBITMAP
 @param type Image type
-@param width Image width
-@param height Image height
-@param bpp Number of bits per pixel
-@param red_mask Image red mask 
-@param green_mask Image green mask
-@param blue_mask Image blue mask
-@return Returns the allocated FIBITMAP
+@param width
+@param height
+@param bpp
+@param red_mask
+@param green_mask
+@param blue_mask
 @see FreeImage_AllocateT
 */
 DLL_API FIBITMAP * DLL_CALLCONV FreeImage_AllocateHeaderT(BOOL header_only, FREE_IMAGE_TYPE type, int width, int height, int bpp FI_DEFAULT(8), unsigned red_mask FI_DEFAULT(0), unsigned green_mask FI_DEFAULT(0), unsigned blue_mask FI_DEFAULT(0));
@@ -88,32 +86,15 @@ DLL_API FIBITMAP * DLL_CALLCONV FreeImage_AllocateHeaderT(BOOL header_only, FREE
 Allocate a FIBITMAP of type FIT_BITMAP, with possibly no pixel data 
 (i.e. only header data and some or all metadata)
 @param header_only If TRUE, allocate a 'header only' FIBITMAP, otherwise allocate a full FIBITMAP
-@param width Image width
-@param height Image height
-@param bpp Number of bits per pixel
-@param red_mask Image red mask 
-@param green_mask Image green mask
-@param blue_mask Image blue mask
-@return Returns the allocated FIBITMAP
+@param width
+@param height
+@param bpp
+@param red_mask
+@param green_mask
+@param blue_mask
 @see FreeImage_Allocate
 */
 DLL_API FIBITMAP * DLL_CALLCONV FreeImage_AllocateHeader(BOOL header_only, int width, int height, int bpp, unsigned red_mask FI_DEFAULT(0), unsigned green_mask FI_DEFAULT(0), unsigned blue_mask FI_DEFAULT(0));
-
-/**
-Allocate a FIBITMAP with no pixel data and wrap a user provided pixel buffer
-@param ext_bits Pointer to external user's pixel buffer
-@param ext_pitch Pointer to external user's pixel buffer pitch
-@param type Image type
-@param width Image width
-@param height Image height
-@param bpp Number of bits per pixel
-@param red_mask Image red mask 
-@param green_mask Image green mask
-@param blue_mask Image blue mask
-@return Returns the allocated FIBITMAP
-@see FreeImage_ConvertFromRawBitsEx
-*/
-DLL_API FIBITMAP * DLL_CALLCONV FreeImage_AllocateHeaderForBits(BYTE *ext_bits, unsigned ext_pitch, FREE_IMAGE_TYPE type, int width, int height, int bpp, unsigned red_mask, unsigned green_mask, unsigned blue_mask);
 
 /**
 Helper for 16-bit FIT_BITMAP
@@ -295,7 +276,7 @@ CalculateUsedPaletteEntries(unsigned bit_count) {
 
 inline unsigned char *
 CalculateScanLine(unsigned char *bits, unsigned pitch, int scanline) {
-	return bits ? (bits + ((size_t)pitch * scanline)) : NULL;
+	return (bits + (pitch * scanline));
 }
 
 // ----------------------------------------------------------
@@ -384,13 +365,6 @@ RGBA to RGB conversion
 */
 FIBITMAP* RemoveAlphaChannel(FIBITMAP* dib);
 
-/**
-Rotate a dib according to Exif info
-@param dib Input / Output dib to rotate
-@see Exif.cpp, PluginJPEG.cpp
-*/
-void RotateExif(FIBITMAP **dib);
-
 
 // ==========================================================
 //   Big Endian / Little Endian utility functions
@@ -477,7 +451,7 @@ A Standard Default Color Space for the Internet - sRGB.
 */
 #define LUMA_REC709(r, g, b)	(0.2126F * r + 0.7152F * g + 0.0722F * b)
 
-#define GREY(r, g, b) (BYTE)(LUMA_REC709(r, g, b) + 0.5F)
+#define GREY(r, g, b) (BYTE)LUMA_REC709(r, g, b)
 /*
 #define GREY(r, g, b) (BYTE)(((WORD)r * 77 + (WORD)g * 150 + (WORD)b * 29) >> 8)	// .299R + .587G + .114B
 */

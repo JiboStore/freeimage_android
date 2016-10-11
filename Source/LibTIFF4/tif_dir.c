@@ -1,4 +1,4 @@
-/* $Id: tif_dir.c,v 1.12 2015/02/19 22:39:58 drolon Exp $ */
+/* $Id: tif_dir.c,v 1.4 2012/10/07 15:54:03 drolon Exp $ */
 
 /*
  * Copyright (c) 1988-1997 Sam Leffler
@@ -160,12 +160,10 @@ _TIFFVSetField(TIFF* tif, uint32 tag, va_list ap)
 	TIFFDirectory* td = &tif->tif_dir;
 	int status = 1;
 	uint32 v32, i, v;
-    double dblval;
 	char* s;
 	const TIFFField *fip = TIFFFindField(tif, tag, TIFF_ANY);
 	uint32 standard_tag = tag;
-	if( fip == NULL ) /* cannot happen since OkToChangeTag() already checks it */
-	    return 0;
+
 	/*
 	 * We want to force the custom code to be used for custom
 	 * fields even if the tag happens to match a well known 
@@ -285,16 +283,10 @@ _TIFFVSetField(TIFF* tif, uint32 tag, va_list ap)
 			setDoubleArrayOneValue(&td->td_smaxsamplevalue, va_arg(ap, double), td->td_samplesperpixel);
 		break;
 	case TIFFTAG_XRESOLUTION:
-        dblval = va_arg(ap, double);
-        if( dblval < 0 )
-            goto badvaluedouble;
-		td->td_xresolution = (float) dblval;
+		td->td_xresolution = (float) va_arg(ap, double);
 		break;
 	case TIFFTAG_YRESOLUTION:
-        dblval = va_arg(ap, double);
-        if( dblval < 0 )
-            goto badvaluedouble;
-		td->td_yresolution = (float) dblval;
+		td->td_yresolution = (float) va_arg(ap, double);
 		break;
 	case TIFFTAG_PLANARCONFIG:
 		v = (uint16) va_arg(ap, uint16_vap);
@@ -457,11 +449,11 @@ _TIFFVSetField(TIFF* tif, uint32 tag, va_list ap)
 		 * happens, for example, when tiffcp is used to convert between
 		 * compression schemes and codec-specific tags are blindly copied.
 		 */
-		if(fip->field_bit != FIELD_CUSTOM) {
+		if(fip == NULL || fip->field_bit != FIELD_CUSTOM) {
 			TIFFErrorExt(tif->tif_clientdata, module,
 			    "%s: Invalid %stag \"%s\" (not supported by codec)",
 			    tif->tif_name, isPseudoTag(tag) ? "pseudo-" : "",
-			    fip->field_name);
+			    fip ? fip->field_name : "Unknown");
 			status = 0;
 			break;
 		}
@@ -701,16 +693,6 @@ badvalue32:
 		va_end(ap);
         }
 	return (0);
-badvaluedouble:
-        {
-        const TIFFField* fip=TIFFFieldWithTag(tif,tag);
-        TIFFErrorExt(tif->tif_clientdata, module,
-             "%s: Bad value %f for \"%s\" tag",
-             tif->tif_name, dblval,
-             fip ? fip->field_name : "Unknown");
-        va_end(ap);
-        }
-    return (0);
 }
 
 /*
@@ -827,8 +809,6 @@ _TIFFVGetField(TIFF* tif, uint32 tag, va_list ap)
 	int ret_val = 1;
 	uint32 standard_tag = tag;
 	const TIFFField* fip = TIFFFindField(tif, tag, TIFF_ANY);
-	if( fip == NULL ) /* cannot happen since TIFFGetField() already checks it */
-	    return 0;
 	
 	/*
 	 * We want to force the custom code to be used for custom
@@ -1026,14 +1006,14 @@ _TIFFVGetField(TIFF* tif, uint32 tag, va_list ap)
 				 * get a tag that is not valid for the image's
 				 * codec then we'll arrive here.
 				 */
-				if( fip->field_bit != FIELD_CUSTOM )
+				if( fip == NULL || fip->field_bit != FIELD_CUSTOM )
 				{
 					TIFFErrorExt(tif->tif_clientdata, "_TIFFVGetField",
 					    "%s: Invalid %stag \"%s\" "
 					    "(not supported by codec)",
 					    tif->tif_name,
 					    isPseudoTag(tag) ? "pseudo-" : "",
-					    fip->field_name);
+					    fip ? fip->field_name : "Unknown");
 					ret_val = 0;
 					break;
 				}
@@ -1322,20 +1302,8 @@ TIFFDefaultDirectory(TIFF* tif)
 	tif->tif_tagmethods.printdir = NULL;
 	/*
 	 *  Give client code a chance to install their own
-	 *  tag extensions & methods, prior to compression overloads,
-	 *  but do some prior cleanup first. (http://trac.osgeo.org/gdal/ticket/5054)
+	 *  tag extensions & methods, prior to compression overloads.
 	 */
-	if (tif->tif_nfieldscompat > 0) {
-		uint32 i;
-
-		for (i = 0; i < tif->tif_nfieldscompat; i++) {
-				if (tif->tif_fieldscompat[i].allocated_size)
-						_TIFFfree(tif->tif_fieldscompat[i].fields);
-		}
-		_TIFFfree(tif->tif_fieldscompat);
-		tif->tif_nfieldscompat = 0;
-		tif->tif_fieldscompat = NULL;
-	}
 	if (_TIFFextender)
 		(*_TIFFextender)(tif);
 	(void) TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
@@ -1376,7 +1344,6 @@ TIFFAdvanceDirectory(TIFF* tif, uint64* nextdir, uint64* off)
 			if (((uint64)poffa!=poff)||(poffb<poffa)||(poffb<(tmsize_t)sizeof(uint16))||(poffb>tif->tif_size))
 			{
 				TIFFErrorExt(tif->tif_clientdata,module,"Error fetching directory count");
-                                  *nextdir=0;
 				return(0);
 			}
 			_TIFFmemcpy(&dircount,tif->tif_base+poffa,sizeof(uint16));
@@ -1503,7 +1470,6 @@ TIFFAdvanceDirectory(TIFF* tif, uint64* nextdir, uint64* off)
 uint16
 TIFFNumberOfDirectories(TIFF* tif)
 {
-	static const char module[] = "TIFFNumberOfDirectories";
 	uint64 nextdir;
 	uint16 n;
 	if (!(tif->tif_flags&TIFF_BIGTIFF))
@@ -1512,14 +1478,7 @@ TIFFNumberOfDirectories(TIFF* tif)
 		nextdir = tif->tif_header.big.tiff_diroff;
 	n = 0;
 	while (nextdir != 0 && TIFFAdvanceDirectory(tif, &nextdir, NULL))
-        {
-		if(++n == 0)
-                {
-                        TIFFErrorExt(tif->tif_clientdata, module,
-                                     "Directory count exceeded 65535 limit, giving up on counting.");
-                        return (65535);
-                }
-        }
+		n++;
 	return (n);
 }
 

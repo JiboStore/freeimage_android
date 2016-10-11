@@ -45,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\;..\ZLib;..\DeprecationManager;..\OpenEXR\Half;..\OpenEXR\Iex;..\OpenEXR\IlmImf;..\OpenEXR\Imath;..\OpenEXR\IlmThread;..\LibJXR\image\sys;..\LibJXR\jxrgluelib"
+				AdditionalIncludeDirectories="..\;..\ZLib;..\DeprecationManager;..\OpenEXR\Half;..\OpenEXR\Iex;..\OpenEXR\IlmImf;..\OpenEXR\Imath;..\OpenEXR\IlmThread"
 				PreprocessorDefinitions="WIN32;_DEBUG;OPJ_STATIC;FREEIMAGE_LIB;_CRT_SECURE_NO_DEPRECATE;LIBRAW_NODLL"
 				StringPooling="true"
 				BasicRuntimeChecks="3"
@@ -126,7 +126,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
-				AdditionalIncludeDirectories="..\;..\ZLib;..\DeprecationManager;..\OpenEXR\Half;..\OpenEXR\Iex;..\OpenEXR\IlmImf;..\OpenEXR\Imath;..\OpenEXR\IlmThread;..\LibJXR\image\sys;..\LibJXR\jxrgluelib"
+				AdditionalIncludeDirectories="..\;..\ZLib;..\DeprecationManager;..\OpenEXR\Half;..\OpenEXR\Iex;..\OpenEXR\IlmImf;..\OpenEXR\Imath;..\OpenEXR\IlmThread"
 				PreprocessorDefinitions="WIN32;NDEBUG;OPJ_STATIC;FREEIMAGE_LIB;_CRT_SECURE_NO_DEPRECATE;LIBRAW_NODLL"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -373,10 +373,6 @@
 				Name="Quantizers"
 				>
 				<File
-					RelativePath="..\FreeImage\LFPQuantizer.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\FreeImage\NNQuantizer.cpp"
 					>
 				</File>
@@ -422,14 +418,6 @@
 				</File>
 				<File
 					RelativePath="..\FreeImage\ConversionRGB16.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\FreeImage\ConversionRGBA16.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\FreeImage\ConversionRGBAF.cpp"
 					>
 				</File>
 				<File
@@ -537,10 +525,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\PluginJXR.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\FreeImage\PluginKOALA.cpp"
 					>
 				</File>
@@ -598,10 +582,6 @@
 				</File>
 				<File
 					RelativePath="..\FreeImage\PluginWBMP.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\FreeImage\PluginWebP.cpp"
 					>
 				</File>
 				<File
@@ -708,14 +688,6 @@
 			</File>
 			<File
 				RelativePath="..\Metadata\FreeImageTag.h"
-				>
-			</File>
-			<File
-				RelativePath="..\FreeImage\J2KHelper.h"
-				>
-			</File>
-			<File
-				RelativePath="..\MapIntrospector.h"
 				>
 			</File>
 			<File

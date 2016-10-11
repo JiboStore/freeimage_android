@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////
 //
-// Copyright (c) 2002-2012, Industrial Light & Magic, a division of Lucas
+// Copyright (c) 2002, Industrial Light & Magic, a division of Lucas
 // Digital Ltd. LLC
 // 
 // All rights reserved.
@@ -43,11 +43,10 @@
 //
 //---------------------------------------------------------------------
 
-#include "ImathMath.h"
-#include "ImathNamespace.h"
+#include <ImathMath.h>
 #include <complex>
 
-IMATH_INTERNAL_NAMESPACE_HEADER_ENTER
+namespace Imath {
 
 //--------------------------------------------------------------------------
 // Find the real solutions of a linear, quadratic or cubic equation:
@@ -214,6 +213,7 @@ solveCubic (T a, T b, T c, T d, T x[3])
     }
 }
 
-IMATH_INTERNAL_NAMESPACE_HEADER_EXIT
 
-#endif // INCLUDED_IMATHROOTS_H
+} // namespace Imath
+
+#endif

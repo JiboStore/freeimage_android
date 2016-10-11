@@ -44,10 +44,9 @@
 //
 //-----------------------------------------------------------------------------
 
-#include "ImfNamespace.h"
-#include <string.h>
+#include "OpenEXRConfig.h"
 
-OPENEXR_IMF_INTERNAL_NAMESPACE_HEADER_ENTER
+namespace Imf {
 
 
 #if !defined (HAVE_LARGE_STACK)
@@ -89,7 +88,6 @@ OPENEXR_IMF_INTERNAL_NAMESPACE_HEADER_ENTER
 
 #endif
 
-OPENEXR_IMF_INTERNAL_NAMESPACE_HEADER_EXIT
-
+} // namespace Imf
 
 #endif

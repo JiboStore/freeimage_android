@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////
 //
-// Copyright (c) 2002-2012, Industrial Light & Magic, a division of Lucas
+// Copyright (c) 2002-2010, Industrial Light & Magic, a division of Lucas
 // Digital Ltd. LLC
 // 
 // All rights reserved.
@@ -79,9 +79,8 @@
 #include "ImathMatrix.h"
 #include "ImathLineAlgo.h"
 #include "ImathPlane.h"
-#include "ImathNamespace.h"
 
-IMATH_INTERNAL_NAMESPACE_HEADER_ENTER
+namespace Imath {
 
 
 template <class T>
@@ -1011,6 +1010,6 @@ intersects (const Box< Vec3<T> > &box, const Line3<T> &ray)
 }
 
 
-IMATH_INTERNAL_NAMESPACE_HEADER_EXIT
+} // namespace Imath
 
-#endif // INCLUDED_IMATHBOXALGO_H
+#endif

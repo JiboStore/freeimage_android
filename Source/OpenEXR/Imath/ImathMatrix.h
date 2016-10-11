@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////
 //
-// Copyright (c) 2002-2012, Industrial Light & Magic, a division of Lucas
+// Copyright (c) 2002, Industrial Light & Magic, a division of Lucas
 // Digital Ltd. LLC
 // 
 // All rights reserved.
@@ -48,7 +48,6 @@
 #include "ImathExc.h"
 #include "ImathVec.h"
 #include "ImathShear.h"
-#include "ImathNamespace.h"
 
 #include <cstring>
 #include <iostream>
@@ -61,7 +60,7 @@
 #endif
 
 
-IMATH_INTERNAL_NAMESPACE_HEADER_ENTER
+namespace Imath {
 
 enum Uninitialized {UNINITIALIZED};
 
@@ -263,16 +262,16 @@ template <class T> class Matrix33
     //------------------------------------------------------------
 
     const Matrix33 &    invert (bool singExc = false)
-                        throw (IEX_NAMESPACE::MathExc);
+                        throw (Iex::MathExc);
 
     Matrix33<T>         inverse (bool singExc = false) const
-                        throw (IEX_NAMESPACE::MathExc);
+                        throw (Iex::MathExc);
 
     const Matrix33 &    gjInvert (bool singExc = false)
-                        throw (IEX_NAMESPACE::MathExc);
+                        throw (Iex::MathExc);
 
     Matrix33<T>         gjInverse (bool singExc = false) const
-                        throw (IEX_NAMESPACE::MathExc);
+                        throw (Iex::MathExc);
 
 
     //------------------------------------------------
@@ -637,16 +636,16 @@ template <class T> class Matrix44
     //------------------------------------------------------------
 
     const Matrix44 &    invert (bool singExc = false)
-                        throw (IEX_NAMESPACE::MathExc);
+                        throw (Iex::MathExc);
 
     Matrix44<T>         inverse (bool singExc = false) const
-                        throw (IEX_NAMESPACE::MathExc);
+                        throw (Iex::MathExc);
 
     const Matrix44 &    gjInvert (bool singExc = false)
-                        throw (IEX_NAMESPACE::MathExc);
+                        throw (Iex::MathExc);
 
     Matrix44<T>         gjInverse (bool singExc = false) const
-                        throw (IEX_NAMESPACE::MathExc);
+                        throw (Iex::MathExc);
 
 
     //------------------------------------------------
@@ -1119,7 +1118,7 @@ Matrix33<T>::equalWithAbsError (const Matrix33<T> &m, T e) const
 {
     for (int i = 0; i < 3; i++)
         for (int j = 0; j < 3; j++)
-            if (!IMATH_INTERNAL_NAMESPACE::equalWithAbsError ((*this)[i][j], m[i][j], e))
+            if (!Imath::equalWithAbsError ((*this)[i][j], m[i][j], e))
                 return false;
 
     return true;
@@ -1131,7 +1130,7 @@ Matrix33<T>::equalWithRelError (const Matrix33<T> &m, T e) const
 {
     for (int i = 0; i < 3; i++)
         for (int j = 0; j < 3; j++)
-            if (!IMATH_INTERNAL_NAMESPACE::equalWithRelError ((*this)[i][j], m[i][j], e))
+            if (!Imath::equalWithRelError ((*this)[i][j], m[i][j], e))
                 return false;
 
     return true;
@@ -1430,7 +1429,7 @@ Matrix33<T>::transposed () const
 
 template <class T>
 const Matrix33<T> &
-Matrix33<T>::gjInvert (bool singExc) throw (IEX_NAMESPACE::MathExc)
+Matrix33<T>::gjInvert (bool singExc) throw (Iex::MathExc)
 {
     *this = gjInverse (singExc);
     return *this;
@@ -1438,7 +1437,7 @@ Matrix33<T>::gjInvert (bool singExc) throw (IEX_NAMESPACE::MathExc)
 
 template <class T>
 Matrix33<T>
-Matrix33<T>::gjInverse (bool singExc) const throw (IEX_NAMESPACE::MathExc)
+Matrix33<T>::gjInverse (bool singExc) const throw (Iex::MathExc)
 {
     int i, j, k;
     Matrix33 s;
@@ -1472,7 +1471,7 @@ Matrix33<T>::gjInverse (bool singExc) const throw (IEX_NAMESPACE::MathExc)
         if (pivotsize == 0)
         {
             if (singExc)
-                throw ::IMATH_INTERNAL_NAMESPACE::SingMatrixExc ("Cannot invert singular matrix.");
+                throw ::Imath::SingMatrixExc ("Cannot invert singular matrix.");
 
             return Matrix33();
         }
@@ -1514,7 +1513,7 @@ Matrix33<T>::gjInverse (bool singExc) const throw (IEX_NAMESPACE::MathExc)
         if ((f = t[i][i]) == 0)
         {
             if (singExc)
-                throw ::IMATH_INTERNAL_NAMESPACE::SingMatrixExc ("Cannot invert singular matrix.");
+                throw ::Imath::SingMatrixExc ("Cannot invert singular matrix.");
 
             return Matrix33();
         }
@@ -1542,7 +1541,7 @@ Matrix33<T>::gjInverse (bool singExc) const throw (IEX_NAMESPACE::MathExc)
 
 template <class T>
 const Matrix33<T> &
-Matrix33<T>::invert (bool singExc) throw (IEX_NAMESPACE::MathExc)
+Matrix33<T>::invert (bool singExc) throw (Iex::MathExc)
 {
     *this = inverse (singExc);
     return *this;
@@ -1550,7 +1549,7 @@ Matrix33<T>::invert (bool singExc) throw (IEX_NAMESPACE::MathExc)
 
 template <class T>
 Matrix33<T>
-Matrix33<T>::inverse (bool singExc) const throw (IEX_NAMESPACE::MathExc)
+Matrix33<T>::inverse (bool singExc) const throw (Iex::MathExc)
 {
     if (x[0][2] != 0 || x[1][2] != 0 || x[2][2] != 1)
     {
@@ -1568,7 +1567,7 @@ Matrix33<T>::inverse (bool singExc) const throw (IEX_NAMESPACE::MathExc)
 
         T r = x[0][0] * s[0][0] + x[0][1] * s[1][0] + x[0][2] * s[2][0];
 
-        if (IMATH_INTERNAL_NAMESPACE::abs (r) >= 1)
+        if (Imath::abs (r) >= 1)
         {
             for (int i = 0; i < 3; ++i)
             {
@@ -1580,13 +1579,13 @@ Matrix33<T>::inverse (bool singExc) const throw (IEX_NAMESPACE::MathExc)
         }
         else
         {
-            T mr = IMATH_INTERNAL_NAMESPACE::abs (r) / limits<T>::smallest();
+            T mr = Imath::abs (r) / limits<T>::smallest();
 
             for (int i = 0; i < 3; ++i)
             {
                 for (int j = 0; j < 3; ++j)
                 {
-                    if (mr > IMATH_INTERNAL_NAMESPACE::abs (s[i][j]))
+                    if (mr > Imath::abs (s[i][j]))
                     {
                         s[i][j] /= r;
                     }
@@ -1619,7 +1618,7 @@ Matrix33<T>::inverse (bool singExc) const throw (IEX_NAMESPACE::MathExc)
 
         T r = x[0][0] * x[1][1] - x[1][0] * x[0][1];
 
-        if (IMATH_INTERNAL_NAMESPACE::abs (r) >= 1)
+        if (Imath::abs (r) >= 1)
         {
             for (int i = 0; i < 2; ++i)
             {
@@ -1631,13 +1630,13 @@ Matrix33<T>::inverse (bool singExc) const throw (IEX_NAMESPACE::MathExc)
         }
         else
         {
-            T mr = IMATH_INTERNAL_NAMESPACE::abs (r) / limits<T>::smallest();
+            T mr = Imath::abs (r) / limits<T>::smallest();
 
             for (int i = 0; i < 2; ++i)
             {
                 for (int j = 0; j < 2; ++j)
                 {
-                    if (mr > IMATH_INTERNAL_NAMESPACE::abs (s[i][j]))
+                    if (mr > Imath::abs (s[i][j]))
                     {
                         s[i][j] /= r;
                     }
@@ -2243,7 +2242,7 @@ Matrix44<T>::equalWithAbsError (const Matrix44<T> &m, T e) const
 {
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
-            if (!IMATH_INTERNAL_NAMESPACE::equalWithAbsError ((*this)[i][j], m[i][j], e))
+            if (!Imath::equalWithAbsError ((*this)[i][j], m[i][j], e))
                 return false;
 
     return true;
@@ -2255,7 +2254,7 @@ Matrix44<T>::equalWithRelError (const Matrix44<T> &m, T e) const
 {
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
-            if (!IMATH_INTERNAL_NAMESPACE::equalWithRelError ((*this)[i][j], m[i][j], e))
+            if (!Imath::equalWithRelError ((*this)[i][j], m[i][j], e))
                 return false;
 
     return true;
@@ -2699,7 +2698,7 @@ Matrix44<T>::transposed () const
 
 template <class T>
 const Matrix44<T> &
-Matrix44<T>::gjInvert (bool singExc) throw (IEX_NAMESPACE::MathExc)
+Matrix44<T>::gjInvert (bool singExc) throw (Iex::MathExc)
 {
     *this = gjInverse (singExc);
     return *this;
@@ -2707,7 +2706,7 @@ Matrix44<T>::gjInvert (bool singExc) throw (IEX_NAMESPACE::MathExc)
 
 template <class T>
 Matrix44<T>
-Matrix44<T>::gjInverse (bool singExc) const throw (IEX_NAMESPACE::MathExc)
+Matrix44<T>::gjInverse (bool singExc) const throw (Iex::MathExc)
 {
     int i, j, k;
     Matrix44 s;
@@ -2741,7 +2740,7 @@ Matrix44<T>::gjInverse (bool singExc) const throw (IEX_NAMESPACE::MathExc)
         if (pivotsize == 0)
         {
             if (singExc)
-                throw ::IMATH_INTERNAL_NAMESPACE::SingMatrixExc ("Cannot invert singular matrix.");
+                throw ::Imath::SingMatrixExc ("Cannot invert singular matrix.");
 
             return Matrix44();
         }
@@ -2783,7 +2782,7 @@ Matrix44<T>::gjInverse (bool singExc) const throw (IEX_NAMESPACE::MathExc)
         if ((f = t[i][i]) == 0)
         {
             if (singExc)
-                throw ::IMATH_INTERNAL_NAMESPACE::SingMatrixExc ("Cannot invert singular matrix.");
+                throw ::Imath::SingMatrixExc ("Cannot invert singular matrix.");
 
             return Matrix44();
         }
@@ -2811,7 +2810,7 @@ Matrix44<T>::gjInverse (bool singExc) const throw (IEX_NAMESPACE::MathExc)
 
 template <class T>
 const Matrix44<T> &
-Matrix44<T>::invert (bool singExc) throw (IEX_NAMESPACE::MathExc)
+Matrix44<T>::invert (bool singExc) throw (Iex::MathExc)
 {
     *this = inverse (singExc);
     return *this;
@@ -2819,7 +2818,7 @@ Matrix44<T>::invert (bool singExc) throw (IEX_NAMESPACE::MathExc)
 
 template <class T>
 Matrix44<T>
-Matrix44<T>::inverse (bool singExc) const throw (IEX_NAMESPACE::MathExc)
+Matrix44<T>::inverse (bool singExc) const throw (Iex::MathExc)
 {
     if (x[0][3] != 0 || x[1][3] != 0 || x[2][3] != 0 || x[3][3] != 1)
         return gjInverse(singExc);
@@ -2846,7 +2845,7 @@ Matrix44<T>::inverse (bool singExc) const throw (IEX_NAMESPACE::MathExc)
 
     T r = x[0][0] * s[0][0] + x[0][1] * s[1][0] + x[0][2] * s[2][0];
 
-    if (IMATH_INTERNAL_NAMESPACE::abs (r) >= 1)
+    if (Imath::abs (r) >= 1)
     {
         for (int i = 0; i < 3; ++i)
         {
@@ -2858,13 +2857,13 @@ Matrix44<T>::inverse (bool singExc) const throw (IEX_NAMESPACE::MathExc)
     }
     else
     {
-        T mr = IMATH_INTERNAL_NAMESPACE::abs (r) / limits<T>::smallest();
+        T mr = Imath::abs (r) / limits<T>::smallest();
 
         for (int i = 0; i < 3; ++i)
         {
             for (int j = 0; j < 3; ++j)
             {
-                if (mr > IMATH_INTERNAL_NAMESPACE::abs (s[i][j]))
+                if (mr > Imath::abs (s[i][j]))
                 {
                     s[i][j] /= r;
                 }
@@ -3436,6 +3435,8 @@ operator * (const Vec4<S> &v, const Matrix44<T> &m)
     return Vec4<S> (x, y, z, w);
 }
 
-IMATH_INTERNAL_NAMESPACE_HEADER_EXIT
+} // namespace Imath
 
-#endif // INCLUDED_IMATHMATRIX_H
+
+
+#endif
