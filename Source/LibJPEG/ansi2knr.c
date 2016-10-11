@@ -130,7 +130,7 @@ program under the GPL.
 
 /* Most of the conditionals here are to make ansi2knr work with */
 /* or without the GNU configure machinery. */
-#undef HAVE_CONFIG_H
+
 #if HAVE_CONFIG_H
 # include <config.h>
 #endif
@@ -174,7 +174,6 @@ program under the GPL.
    malloc and free should be declared in stdlib.h,
    but if you've got a K&R compiler, they probably aren't.
  */
-#define MSDOS
 # ifdef MSDOS
 #  include <malloc.h>
 # else
