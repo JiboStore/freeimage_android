@@ -14,6 +14,7 @@
 #ifndef WEBP_DSP_DSP_H_
 #define WEBP_DSP_DSP_H_
 
+#undef HAVE_CONFIG_H
 #ifdef HAVE_CONFIG_H
 #include "../webp/config.h"
 #endif

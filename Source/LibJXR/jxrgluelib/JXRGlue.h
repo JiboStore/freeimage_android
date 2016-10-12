@@ -2,16 +2,16 @@
 //
 // Copyright © Microsoft Corp.
 // All rights reserved.
-// 
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
-// 
+//
 // • Redistributions of source code must retain the above copyright notice,
 //   this list of conditions and the following disclaimer.
 // • Redistributions in binary form must reproduce the above copyright notice,
 //   this list of conditions and the following disclaimer in the documentation
 //   and/or other materials provided with the distribution.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 // AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -31,8 +31,8 @@
 extern "C" {
 #endif
 
-#include <JXRMeta.h>
-#include <guiddef.h>
+#include "JXRMeta.h"
+#include "../common/include/guiddef.h"
 
 //================================================================
 #define WMP_SDK_VERSION 0x0101
@@ -273,7 +273,7 @@ typedef struct tagPKPixelInfo
     COLORFORMAT cfColorFormat;
     BITDEPTH_BITS bdBitDepth;
     U32 cbitUnit;
-    
+
     WMP_GRBIT grBit;
 
     // TIFF
@@ -516,7 +516,7 @@ typedef struct tagPKImageDecode
     struct WMPStream* pStream;
     Bool fStreamOwner;
     size_t offStart;
-    
+
     PKPixelFormatGUID guidPixFormat;
 
     U32 uWidth;
@@ -553,7 +553,7 @@ typedef struct tagPKImageDecode
 
         Bool fOrientationFromContainer;
         ORIENTATION oOrientationFromContainer; // Tag 0xBC02 in HD Photo container
-            
+
         DESCRIPTIVEMETADATA sDescMetadata;
     } WMP;
 

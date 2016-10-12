@@ -26,6 +26,8 @@ GLOBAL_C_INCLUDES := \
     $(LOCAL_PATH)/../Source/LibRawLite/libraw \
     $(LOCAL_PATH)/../Source/LibRawLite/src \
     $(LOCAL_PATH)/../Source/LibTIFF \
+    $(LOCAL_PATH)/../Source/LibTIFF4 \
+    $(LOCAL_PATH)/../Source/LibWebP \
     $(LOCAL_PATH)/../Source/Metadata \
     $(LOCAL_PATH)/../Source/OpenEXR \
     $(LOCAL_PATH)/../Source/OpenEXR/Copyrights \

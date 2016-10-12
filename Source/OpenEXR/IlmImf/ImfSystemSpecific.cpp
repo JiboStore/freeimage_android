@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////
 //
-// Copyright (c) 2009-2014 DreamWorks Animation LLC. 
+// Copyright (c) 2009-2014 DreamWorks Animation LLC.
 //
 // All rights reserved.
 //
@@ -38,15 +38,18 @@
 
 OPENEXR_IMF_INTERNAL_NAMESPACE_SOURCE_ENTER
 
+#undef IMF_HAVE_SSE2
+#undef __GNUC__xxx
+
 namespace {
-#if defined(IMF_HAVE_SSE2) &&  defined(__GNUC__)
+#if defined(IMF_HAVE_SSE2) &&  defined(__GNUC__xxx)
 
     // Helper functions for gcc + SSE enabled
     void cpuid(int n, int &eax, int &ebx, int &ecx, int &edx)
     {
         __asm__ __volatile__ (
             "cpuid"
-            : /* Output  */ "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx) 
+            : /* Output  */ "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx)
             : /* Input   */ "a"(n)
             : /* Clobber */);
     }
@@ -68,7 +71,7 @@ namespace {
     {
         __asm__ __volatile__ (
             "xgetbv"
-            : /* Output  */ "=a"(eax), "=d"(edx) 
+            : /* Output  */ "=a"(eax), "=d"(edx)
             : /* Input   */ "c"(n)
             : /* Clobber */);
     }
@@ -82,15 +85,15 @@ namespace {
 
 #endif //  OPENEXR_IMF_HAVE_GCC_INLINE_ASM_AVX
 
-} // namespace 
+} // namespace
 
 CpuId::CpuId():
-    sse2(false), 
-    sse3(false), 
+    sse2(false),
+    sse3(false),
     ssse3(false),
-    sse4_1(false), 
-    sse4_2(false), 
-    avx(false), 
+    sse4_1(false),
+    sse4_2(false),
+    avx(false),
     f16c(false)
 {
     bool osxsave = false;
