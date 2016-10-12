@@ -34,6 +34,8 @@
 
 // Compiler options ---------------------------------------------------------
 
+#define FREEIMAGE_BIGENDIAN // HAKIM 161012
+
 #include <wchar.h>	// needed for UNICODE functions
 
 #if defined(FREEIMAGE_LIB)
