@@ -1,0 +1,155 @@
+# Configuration for iPhone OS, making static libs
+# this will generate both iPhone (arm) and iPhoneSimulator (i386) libs
+
+include Makefile.srcs
+
+CFLAGS =  -g -O2 -Wall -Wmissing-prototypes -std=c99 -ffast-math -fno-strict-aliasing -D__ANSI__ -DDISABLE_PERF_MEASUREMENT -fembed-bitcode  
+CXXFLAGS =  -g -O2 -Wall -fno-strict-aliasing -D__ANSI__ -DDISABLE_PERF_MEASUREMENT -fembed-bitcode
+
+GCC_VERSION = 4.2
+IPHONEOS_DEPLOYMENT_TARGET = 8.0
+MACOSX_DEPLOYMENT_TARGET = 10.12
+
+PLATFORM_SIM = iPhoneSimulator
+PLATFORM_PHONE = iPhoneOS
+
+ARCH_I386 = i386
+ARCH_X64 = x86_64
+ARCH_ARMV7 = armv7
+ARCH_ARMV7S = armv7s
+ARCH_ARM64 = arm64
+
+PLATFORM_SIM_DEVELOPER_BIN_DIR = $(shell xcode-select -print-path)/Platforms/$(PLATFORM_SIM).platform/Developer/usr/bin
+PLATFORM_PHONE_DEVELOPER_BIN_DIR = $(shell xcode-select -print-path)/Platforms/$(PLATFORM_PHONE).platform/Developer/usr/bin
+
+#PLATFORM_SIM_DEVELOPER_BIN_DIR = /Developer/Platforms/$(PLATFORM_SIM).platform/Developer/usr/bin
+#PLATFORM_PHONE_DEVELOPER_BIN_DIR = /Developer/Platforms/$(PLATFORM_PHONE).platform/Developer/usr/bin
+
+SDKROOT_SIM = $(shell xcode-select -print-path)/Platforms/$(PLATFORM_SIM).platform/Developer/SDKs/$(PLATFORM_SIM)$(IPHONEOS_SDK).sdk
+SDKROOT_PHONE = $(shell xcode-select -print-path)/Platforms/$(PLATFORM_PHONE).platform/Developer/SDKs/$(PLATFORM_PHONE)$(IPHONEOS_SDK).sdk
+
+#SDKROOT_SIM = /Developer/Platforms/$(PLATFORM_SIM).platform/Developer/SDKs/$(PLATFORM_SIM)$(IPHONEOS_DEPLOYMENT_TARGET).sdk
+#SDKROOT_PHONE = /Developer/Platforms/$(PLATFORM_PHONE).platform/Developer/SDKs/$(PLATFORM_PHONE)$(IPHONEOS_DEPLOYMENT_TARGET).sdk
+
+#EXTRA_CFLAGS_SIM += -arch $(ARCH_I386) -pipe -mdynamic-no-pic -fvisibility=hidden $(INCLUDE) -isysroot $(SDKROOT_SIM)
+EXTRA_CFLAGS_SIM += -pipe -mdynamic-no-pic -fvisibility=hidden $(INCLUDE) -isysroot $(SDKROOT_SIM)
+#EXTRA_LDFLAGS_SIM += -arch $(ARCH_I386) -isysroot $(SDKROOT_SIM) -Wl,-dead_strip
+EXTRA_CFLAGS_SIM += -D__IPHONE_OS_VERSION_MIN_REQUIRED=20000
+#EXTRA_CFLAGS_SIM += -D__IPHONE_OS_VERSION_MIN_REQUIRED=20000 -mmacosx-version-min=$(MACOSX_DEPLOYMENT_TARGET)
+#EXTRA_LDFLAGS_SIM += -mmacosx-version-min=$(MACOSX_DEPLOYMENT_TARGET)
+# my extra
+EXTRA_CFLAGS_SIM += -miphoneos-version-min=$(IPHONEOS_DEPLOYMENT_TARGET)
+EXTRA_LDFLAGS_SIM += -miphoneos-version-min=$(IPHONEOS_DEPLOYMENT_TARGET)
+
+# Xcode complains about the -mdynamic-no-pic with an Apple Mach-O Linker Warning, so removed
+#EXTRA_CFLAGS_PHONE += -arch $(ARCH_ARMV7) -pipe -mdynamic-no-pic -fvisibility=hidden $(INCLUDE) -isysroot $(SDKROOT_PHONE)
+EXTRA_CFLAGS_PHONE += -pipe -fvisibility=hidden $(INCLUDE) -isysroot $(SDKROOT_PHONE)
+#EXTRA_LDFLAGS_PHONE += -arch $(ARCH_ARMV7) -isysroot $(SDKROOT_PHONE) -Wl,-dead_strip
+EXTRA_CFLAGS_PHONE += -miphoneos-version-min=$(IPHONEOS_DEPLOYMENT_TARGET)
+EXTRA_LDFLAGS_PHONE += -miphoneos-version-min=$(IPHONEOS_DEPLOYMENT_TARGET)
+
+AR_SIM = $(PLATFORM_SIM_DEVELOPER_BIN_DIR)/ar
+AR_PHONE = $(PLATFORM_PHONE_DEVELOPER_BIN_DIR)/ar
+
+CC_SIM = /usr/bin/gcc
+CC_PHONE = /usr/bin/gcc
+#CC_SIM = $(PLATFORM_SIM_DEVELOPER_BIN_DIR)/gcc
+#CC_PHONE = $(PLATFORM_PHONE_DEVELOPER_BIN_DIR)/gcc
+
+CFLAGS_SIM = $(CFLAGS) $(EXTRA_CFLAGS_SIM)
+#LDFLAGS_SIM = $(EXTRA_LDFLAGS_SIM)
+CXX_SIM = /usr/bin/g++
+#CXX_SIM = $(PLATFORM_SIM_DEVELOPER_BIN_DIR)/g++
+CXXFLAGS_SIM += $(CXXFLAGS) $(EXTRA_CFLAGS_SIM) -fvisibility-inlines-hidden
+LIBTOOL_SIM = /usr/bin/libtool
+#LIBTOOL_SIM = $(shell xcode-select -print-path)/Platforms/$(PLATFORM_SIM).platform/Developer/usr/bin/libtool
+#LIBTOOL_SIM = /Developer/Platforms/$(PLATFORM_SIM).platform/Developer/usr/bin/libtool
+
+CFLAGS_PHONE = $(CFLAGS) $(EXTRA_CFLAGS_PHONE)
+#LDFLAGS_PHONE += $(EXTRA_LDFLAGS_PHONE)
+CXX_PHONE = /usr/bin/g++
+#CXX_PHONE = $(PLATFORM_PHONE_DEVELOPER_BIN_DIR)/g++
+CXXFLAGS_PHONE += $(CXXFLAGS) $(EXTRA_CFLAGS_PHONE) -fvisibility-inlines-hidden
+LIBTOOL_PHONE = /usr/bin/libtool
+#LIBTOOL_PHONE = $(shell xcode-select -print-path)/Platforms/$(PLATFORM_PHONE).platform/Developer/usr/bin/libtool
+#LIBTOOL_PHONE = /Developer/Platforms/$(PLATFORM_PHONE).platform/Developer/usr/bin/libtool
+
+TARGET = freeimage
+STATICLIB_I386 = lib$(TARGET)-iphonesimulator-$(ARCH_I386).a
+STATICLIB_X64 = lib$(TARGET)-iphonesimulator-$(ARCH_X64).a
+STATICLIB_ARMV7 = lib$(TARGET)-iphone-$(ARCH_ARMV7).a
+STATICLIB_ARMV7S = lib$(TARGET)-iphone-$(ARCH_ARMV7S).a
+STATICLIB_ARM64 = lib$(TARGET)-iphone-$(ARCH_ARM64).a
+HEADER = Source/FreeImage.h
+
+.SUFFIXES: .o-i386 .o-x64 .o-armv7 .o-armv7s .o-arm64
+MODULES_I386 = $(SRCS:.c=.o-i386)
+MODULES_I386 := $(MODULES_I386:.cpp=.o-i386)
+MODULES_X64 = $(SRCS:.c=.o-x64)
+MODULES_X64 := $(MODULES_X64:.cpp=.o-x64)
+MODULES_ARMV7 = $(SRCS:.c=.o-armv7)
+MODULES_ARMV7 := $(MODULES_ARMV7:.cpp=.o-armv7)
+MODULES_ARMV7S = $(SRCS:.c=.o-armv7s)
+MODULES_ARMV7S := $(MODULES_ARMV7S:.cpp=.o-armv7s)
+MODULES_ARM64 = $(SRCS:.c=.o-arm64)
+MODULES_ARM64 := $(MODULES_ARM64:.cpp=.o-arm64)
+
+default: all
+
+all: dist
+
+dist: FreeImage
+	mkdir -p Dist
+	cp *.a Dist/
+	cp Source/FreeImage.h Dist/
+
+#FreeImage: $(STATICLIB_I386) $(STATICLIB_ARMV7)
+FreeImage: $(STATICLIB_I386) $(STATICLIB_X64) $(STATICLIB_ARMV7) $(STATICLIB_ARMV7S) $(STATICLIB_ARM64)
+
+$(STATICLIB_I386): $(MODULES_I386)
+	$(LIBTOOL_SIM) -arch_only $(ARCH_I386) -o $@ $(MODULES_I386)
+
+.c.o-i386:
+	$(CC_SIM) -arch $(ARCH_I386) $(CFLAGS_SIM) -c $< -o $@
+
+.cpp.o-i386:
+	$(CXX_SIM) -arch $(ARCH_I386) $(CXXFLAGS_SIM) -c $< -o $@
+	
+$(STATICLIB_X64): $(MODULES_X64)
+	$(LIBTOOL_SIM) -arch_only $(ARCH_X64) -o $@ $(MODULES_X64)
+
+.c.o-x64:
+	$(CC_SIM) -arch $(ARCH_X64) $(CFLAGS_SIM) -c $< -o $@
+
+.cpp.o-x64:
+	$(CXX_SIM) -arch $(ARCH_X64) $(CXXFLAGS_SIM) -c $< -o $@	
+
+$(STATICLIB_ARMV7): $(MODULES_ARMV7)
+	$(LIBTOOL_PHONE) -arch_only $(ARCH_ARMV7) -o $@ $(MODULES_ARMV7)
+
+.c.o-armv7:
+	$(CC_PHONE) -arch $(ARCH_ARMV7) $(CFLAGS_PHONE) -c $< -o $@
+
+.cpp.o-armv7:
+	$(CXX_PHONE) -arch $(ARCH_ARMV7) $(CXXFLAGS_PHONE) -c $< -o $@
+	
+$(STATICLIB_ARMV7S): $(MODULES_ARMV7S)
+	$(LIBTOOL_PHONE) -arch_only $(ARCH_ARMV7S) -o $@ $(MODULES_ARMV7S)
+
+.c.o-armv7s:
+	$(CC_PHONE) -arch $(ARCH_ARMV7S) $(CFLAGS_PHONE) -c $< -o $@
+
+.cpp.o-armv7s:
+	$(CXX_PHONE) -arch $(ARCH_ARMV7S) $(CXXFLAGS_PHONE) -c $< -o $@
+	
+$(STATICLIB_ARM64): $(MODULES_ARM64)
+	$(LIBTOOL_PHONE) -arch_only $(ARCH_ARM64) -o $@ $(MODULES_ARM64)
+
+.c.o-arm64:
+	$(CC_PHONE) -arch $(ARCH_ARM64) $(CFLAGS_PHONE) -c $< -o $@
+
+.cpp.o-arm64:
+	$(CXX_PHONE) -arch $(ARCH_ARM64) $(CXXFLAGS_PHONE) -c $< -o $@
+
+clean:
+	rm -f core Dist/*.* u2dtmp* $(MODULES_I386) $(MODULES_ARMV7) $(STATICLIB_I386) $(STATICLIB_ARMV7)
