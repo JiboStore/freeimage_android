@@ -3,8 +3,6 @@
 
 include Makefile.srcs
 
-#CFLAGS =  -g -O2 -Wall -Wmissing-prototypes -std=c99 -ffast-math -fno-strict-aliasing -D__ANSI__
-#CXXFLAGS =  -g -O2 -Wall -fno-strict-aliasing
 CFLAGS =  -g -O2 -Wall -Wmissing-prototypes -std=c99 -ffast-math -fno-strict-aliasing -D__ANSI__ -DDISABLE_PERF_MEASUREMENT -fembed-bitcode  
 CXXFLAGS =  -g -O2 -Wall -fno-strict-aliasing -D__ANSI__ -DDISABLE_PERF_MEASUREMENT -fembed-bitcode
 
@@ -16,7 +14,7 @@ PLATFORM_SIM = iPhoneSimulator
 PLATFORM_PHONE = iPhoneOS
 
 ARCH_SIM = i386
-ARCH_PHONE = armv7
+ARCH_PHONE = arm64
 
 PLATFORM_SIM_DEVELOPER_BIN_DIR = $(shell xcode-select -print-path)/Platforms/$(PLATFORM_SIM).platform/Developer/usr/bin
 PLATFORM_PHONE_DEVELOPER_BIN_DIR = $(shell xcode-select -print-path)/Platforms/$(PLATFORM_PHONE).platform/Developer/usr/bin
@@ -74,7 +72,7 @@ LIBTOOL_PHONE = /usr/bin/libtool
 
 TARGET = freeimage
 STATICLIB_SIM = lib$(TARGET)-iphonesimulator.a
-STATICLIB_PHONE = lib$(TARGET)-iphone.a
+STATICLIB_PHONE = lib$(TARGET)-iphone-arm64.a
 HEADER = Source/FreeImage.h
 
 .SUFFIXES: .o-i386 .o-arm

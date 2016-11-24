@@ -31,6 +31,8 @@
 extern "C" {
 #endif
 
+#include <wchar.h>
+#include <stdio.h>
 #include <JXRMeta.h>
 #include <guiddef.h>
 
